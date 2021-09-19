@@ -1,0 +1,25 @@
+package com.jbond.ukffa.service.core.entity;
+
+import lombok.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.UUID;
+
+@Entity
+@Table(name = "groups")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class GroupItem {
+    @Id
+    private UUID id;
+
+    @Column
+    private UUID parentID;
+
+    @Column(name = "group_name")
+    private String name;
+}

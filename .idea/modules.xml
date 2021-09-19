@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/UkFFA-project-service/UkFFA-project-service.iml" filepath="$PROJECT_DIR$/UkFFA-project-service/UkFFA-project-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UkFFA-service/UkFFA-service.iml" filepath="$PROJECT_DIR$/UkFFA-service/UkFFA-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UkFFA-service-api/UkFFA-service-api.iml" filepath="$PROJECT_DIR$/UkFFA-service-api/UkFFA-service-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UkFFA-service-core/UkFFA-service-core.iml" filepath="$PROJECT_DIR$/UkFFA-service-core/UkFFA-service-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UkFFA-service-infra-api-rest/UkFFA-service-infra-api-rest.iml" filepath="$PROJECT_DIR$/UkFFA-service-infra-api-rest/UkFFA-service-infra-api-rest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UkFFA-service-infra-jpa/UkFFA-service-infra-jpa.iml" filepath="$PROJECT_DIR$/UkFFA-service-infra-jpa/UkFFA-service-infra-jpa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UkFFA-service-parent.iml" filepath="$PROJECT_DIR$/UkFFA-service-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UkFFA-service-ui/UkFFA-service-ui.iml" filepath="$PROJECT_DIR$/UkFFA-service-ui/UkFFA-service-ui.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,6 @@
+# Project exclude paths
+/UkFFA-service/target/
+/UkFFA-service-api/target/
+/UkFFA-service-core/target/
+/UkFFA-service-infra-api-rest/target/
+/UkFFA-service-infra-jpa/target/
