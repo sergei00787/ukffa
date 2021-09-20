@@ -12,7 +12,7 @@ public class UkFFAServiceApplication {
     public static void main(String[] args) {
         Environment environment = SpringApplication.run(UkFFAServiceApplication.class, args).getEnvironment();
         log.info("Start SwaggerUI to use the Shopping List's APIs: "
-                + "http://localhost:{}/swagger-ui/index.html#/shopping-list-controller", environment.getProperty("server.port"));
+                + "http://localhost:{}/swagger-ui/index.html#", environment.getProperty("server.port"));
     }
 
 }

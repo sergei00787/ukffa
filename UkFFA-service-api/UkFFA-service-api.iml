@@ -7,6 +7,7 @@
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
           <factory-entry name="UkFFA-project-api" />
+          <factory-entry name="UkFFA-service-api" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>
