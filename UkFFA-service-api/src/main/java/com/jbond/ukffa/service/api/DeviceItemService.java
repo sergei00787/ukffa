@@ -16,11 +16,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class DeviceItemService {
 
-    private DeviceItemRepository deviceItemRepository;
-
-    public DeviceItemService(DeviceItemRepository deviceItemRepo) {
-        this.deviceItemRepository = deviceItemRepo;
-    }
+    private final DeviceItemRepository deviceItemRepository;
 
     @Transactional
     public UUID createDeviceItem() {

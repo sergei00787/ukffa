@@ -17,8 +17,8 @@ public class GroupItem {
     @Id
     private UUID id;
 
-    @Column
-    private UUID parentID;
+    @Column(name = "parent_id")
+    private UUID parentId;
 
     @Column(name = "group_name")
     private String name;

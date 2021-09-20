@@ -4,3 +4,16 @@ server:
 spring:
   application:
     name: UkFFA-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/ukffa
+    username: postgres
+    password: post
+    jpa:
+      show-sql: true
+      hibernate:
+        ddl-auto: update
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+      database: ukffa
+      open-in-view: false
+      generate-ddl: true
