@@ -3,6 +3,7 @@ package com.jbond.ukffa.service.core.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,10 +31,9 @@ public class DeviceItem {
     private String image;
     private String imageColored;
 
-//    @Setter(value = AccessLevel.PRIVATE)
     @OneToMany(mappedBy = "deviceItem")
-//    List<Property> properties = new ArrayList<Property>();
-    List<Property> properties;
+    List<Property> properties = new ArrayList<>();
+
 //    List<TripSplitter> tripSplitters;
 
     private boolean isAreaEnabled;

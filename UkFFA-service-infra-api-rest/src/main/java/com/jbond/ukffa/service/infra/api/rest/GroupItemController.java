@@ -1,18 +1,18 @@
 package com.jbond.ukffa.service.infra.api.rest;
 
 
-import com.jbond.ukffa.service.api.DeviceItemService;
 import com.jbond.ukffa.service.api.GroupItemService;
 import com.jbond.ukffa.service.core.entity.GroupItem;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.UUID;
 
 import static org.springframework.http.ResponseEntity.created;
 
@@ -30,7 +30,7 @@ public class GroupItemController {
     @ApiOperation(value = "Create new group item", produces = "application/json", consumes = "application/json")
     @PostMapping("/")
     ResponseEntity<?> createDeviceItem(UriComponentsBuilder uriComponentsBuilder,
-                                       @RequestBody GroupItem groupItem){
+                                       @RequestBody GroupItem groupItem) {
         UriComponents uriComponents = uriComponentsBuilder
                 .path(BASE_URI + "/{groupItem}")
                 .buildAndExpand(

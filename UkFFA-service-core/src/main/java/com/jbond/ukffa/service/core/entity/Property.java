@@ -16,7 +16,7 @@ public class Property {
     @Id
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "device_id", referencedColumnName = "id")
     private DeviceItem deviceItem;
 
