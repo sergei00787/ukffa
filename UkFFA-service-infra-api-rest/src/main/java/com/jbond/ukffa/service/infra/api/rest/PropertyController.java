@@ -1,7 +1,7 @@
 package com.jbond.ukffa.service.infra.api.rest;
 
 
-import com.jbond.ukffa.service.api.DeviceItemService;
+import com.jbond.ukffa.service.api.DeviceService;
 import com.jbond.ukffa.service.api.PropertyService;
 import com.jbond.ukffa.service.core.entity.Property;
 import io.swagger.annotations.Api;
@@ -27,7 +27,7 @@ public class PropertyController {
     protected static final String BASE_URI = "/api/v1/properties";
 
     private final PropertyService propertyService;
-    private final DeviceItemService deviceItemService;
+    private final DeviceService deviceService;
 
     @ApiOperation(value = "Create new property", produces = "application/json", consumes = "application/json")
     @PostMapping("/")
@@ -36,8 +36,8 @@ public class PropertyController {
         UriComponents uriComponents = uriComponentsBuilder
                 .path(BASE_URI + "/{groupItem}")
                 .buildAndExpand(
-                        deviceItemService.addPropertyToDeviceItem(property.getDeviceItem().getId(), property),
-                        propertyService.createProperty(property.getId(), property.getDeviceItem().getId(),
+                        deviceService.addPropertyToDeviceItem(property.getDevice().getId(), property),
+                        propertyService.createProperty(property.getId(), property.getDevice().getId(),
                                 property.isInherited(), property.getPropType(), property.getName(), property.getValue())
                 );
 

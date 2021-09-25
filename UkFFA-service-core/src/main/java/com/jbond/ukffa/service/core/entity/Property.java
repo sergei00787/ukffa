@@ -18,7 +18,7 @@ public class Property {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "device_id", referencedColumnName = "id")
-    private DeviceItem deviceItem;
+    private Device device;
 
     private boolean inherited;
     private PropType propType;

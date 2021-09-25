@@ -12,7 +12,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeviceItem {
+public class Device {
     @Id
     private UUID id = UUID.randomUUID();
 
@@ -22,7 +22,7 @@ public class DeviceItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
-    private GroupItem groupItem;
+    private Group group;
 
     private boolean allowed;
 
@@ -31,14 +31,14 @@ public class DeviceItem {
     private String image;
     private String imageColored;
 
-    @OneToMany(mappedBy = "deviceItem")
+    @OneToMany(mappedBy = "device")
     List<Property> properties = new ArrayList<>();
 
 //    List<TripSplitter> tripSplitters;
 
     private boolean isAreaEnabled;
 
-    public DeviceItem(UUID id) {
+    public Device(UUID id) {
         this.id = id;
     }
 }

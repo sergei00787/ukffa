@@ -24,6 +24,10 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>UkFFA-service-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>UkFFA-service-infra-jpa</artifactId>
+        </dependency>
 
         <!-- Spring Boot Web -->
         <dependency>

@@ -17,3 +17,6 @@ spring:
       database: ukffa
       open-in-view: false
       generate-ddl: true
+  data:
+    rest:
+      base-path: /api/v1

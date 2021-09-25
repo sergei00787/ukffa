@@ -1,11 +1,9 @@
 package com.jbond.ukffa.service.api;
 
-import com.jbond.ukffa.service.core.entity.DeviceItem;
-import com.jbond.ukffa.service.core.entity.GroupItem;
+import com.jbond.ukffa.service.core.entity.Device;
 import com.jbond.ukffa.service.core.entity.PropType;
 import com.jbond.ukffa.service.core.entity.Property;
-import com.jbond.ukffa.service.core.repositories.DeviceItemRepository;
-import com.jbond.ukffa.service.core.repositories.GroupItemRepository;
+import com.jbond.ukffa.service.core.repositories.DeviceRepository;
 import com.jbond.ukffa.service.core.repositories.PropertyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +17,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PropertyService {
     private final PropertyRepository propertyRepository;
-    private final DeviceItemRepository deviceItemRepository;
+    private final DeviceRepository deviceRepository;
 
     @Transactional
     public UUID createProperty() {
@@ -32,9 +30,9 @@ public class PropertyService {
 
     @Transactional
     public UUID createProperty(UUID id, UUID deviceItemId, boolean inherited, PropType propType, String name, String value) {
-        if (deviceItemRepository.findById(deviceItemId).isPresent()) {
-            DeviceItem deviceItem = deviceItemRepository.findById(deviceItemId).get();
-            Property property = new Property(id, deviceItem, inherited, propType, name, value);
+        if (deviceRepository.findById(deviceItemId).isPresent()) {
+            Device device = deviceRepository.findById(deviceItemId).get();
+            Property property = new Property(id, device, inherited, propType, name, value);
             propertyRepository.save(property);
             log.info("Created a new property <id: {}>", property.getId());
             return property.getId();
