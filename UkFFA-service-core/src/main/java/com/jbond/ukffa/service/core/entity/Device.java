@@ -1,9 +1,11 @@
 package com.jbond.ukffa.service.core.entity;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,7 +19,6 @@ public class Device {
     private UUID id = UUID.randomUUID();
 
     private int serial;
-
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -25,18 +26,14 @@ public class Device {
     private Group group;
 
     private boolean allowed;
-
-//    private Point FixedLocation;
-
     private String image;
     private String imageColored;
 
-    @OneToMany(mappedBy = "device")
-    List<Property> properties = new ArrayList<>();
-
-//    List<TripSplitter> tripSplitters;
-
     private boolean isAreaEnabled;
+
+    @OneToMany(mappedBy = "device", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("device")
+    private List<Property> properties;
 
     public Device(UUID id) {
         this.id = id;

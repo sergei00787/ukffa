@@ -49,6 +49,7 @@
     <orderEntry type="library" scope="RUNTIME" name="Maven: com.sun.activation:jakarta.activation:1.2.2" level="project" />
     <orderEntry type="library" name="Maven: com.mchange:c3p0:0.9.5.5" level="project" />
     <orderEntry type="library" name="Maven: com.mchange:mchange-commons-java:0.2.19" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.12.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.springframework:spring-context:5.3.9" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.springframework:spring-aop:5.3.9" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.springframework:spring-beans:5.3.9" level="project" />

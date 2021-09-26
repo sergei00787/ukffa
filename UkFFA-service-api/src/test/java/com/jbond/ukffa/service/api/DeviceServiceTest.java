@@ -41,20 +41,4 @@ public class DeviceServiceTest {
         assertNotNull(deviceItemIdWithData);
     }
 
-    @Test
-    void addPropertyToDeviceItem(){
-        Group group = new Group(UUID.randomUUID(),null,"Group1");
-        Device device = new Device(UUID.randomUUID(),123,"device1", group,
-                true, "img.png", null, new ArrayList<>(),false);
-        doReturn(device).when(deviceRepository).findByIdOrFail(any());
-
-        Property property1 = new Property(UUID.randomUUID(), device, false, PropType.Number, "AGID", "11");
-        UUID deviceItemId = deviceService.addPropertyToDeviceItem(device.getId(), property1);
-
-        assertNotNull(deviceItemId);
-        Device device1 = deviceRepository.findByIdOrFail(deviceItemId);
-    }
-
-
-
 }

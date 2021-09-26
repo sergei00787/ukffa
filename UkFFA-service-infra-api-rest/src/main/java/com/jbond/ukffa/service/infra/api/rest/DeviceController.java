@@ -3,10 +3,10 @@ package com.jbond.ukffa.service.infra.api.rest;
 
 import com.jbond.ukffa.service.api.DeviceService;
 import com.jbond.ukffa.service.core.entity.Device;
+import com.jbond.ukffa.service.infra.jpa.DeviceJpaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +14,11 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
-
 import static org.springframework.http.ResponseEntity.created;
-import static org.springframework.http.ResponseEntity.ok;
-
 
 @RestController
 @RequestMapping(DeviceController.BASE_URI)
-@Api(value = "API to shopping list", produces = "application/json")
+@Api(value = "API to devices", produces = "application/json")
 @RequiredArgsConstructor
 public class DeviceController {
 
@@ -31,8 +28,8 @@ public class DeviceController {
     private final DeviceJpaService deviceJpaService;
 
     @ApiOperation(value = "Get all devices", produces = MediaType.APPLICATION_JSON_VALUE)
-    @GetMapping(value = BASE_URI, produces = MediaType.APPLICATION_JSON_VALUE)
-    List<Device> findAllDevices(){
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Device> findAllDevices(){
         return deviceJpaService.findAllDevice();
     }
 

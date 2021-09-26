@@ -17,11 +17,11 @@ public class DeviceItemTest {
         Group group3 = new Group(UUID.randomUUID(), group1.getId(), "MainGroup");
 
         Device device1 = new Device(UUID.randomUUID(), 1, "Device-1", group2, true,
-                "img1.png", "",null,false);
+                "img1.png", "",false,null);
         Device device2 = new Device(UUID.randomUUID(), 2, "Device-2", group3, true,
-                "img1.png", "",null,false);
+                "img1.png", "",false, null);
         Device device3 = new Device(UUID.randomUUID(), 3, "Device-3", group1, true,
-                "img1.png", "",null,false);
+                "img1.png", "",false, null);
 
         Property property1 = new Property(UUID.randomUUID(), device1, false, PropType.Number, "AgUniqID", "11");
         Property property2 = new Property(UUID.randomUUID(), device2, false, PropType.Number, "AgUniqID", "22");
