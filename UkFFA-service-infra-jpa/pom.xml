@@ -15,8 +15,6 @@
 
     <properties>
         <main.basedir>${project.parent.basedir}</main.basedir>
-<!--        <maven.compiler.source>15</maven.compiler.source>-->
-<!--        <maven.compiler.target>15</maven.compiler.target>-->
     </properties>
 
 
@@ -32,7 +30,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
 
         <!-- Test -->
         <dependency>

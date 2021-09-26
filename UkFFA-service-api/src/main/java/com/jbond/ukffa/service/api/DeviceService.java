@@ -32,11 +32,16 @@ public class DeviceService {
     public UUID createDeviceItem(UUID id, int serial, String name, Group group, boolean allowed,
                                  String image, String imageColored, boolean isAreaEnabled) {
         Device device = new Device(id, serial, name, group, allowed,
-                image, imageColored,  isAreaEnabled, null);
+                image, imageColored, isAreaEnabled, null);
 
         deviceRepository.save(device);
         log.info("Created a new DeviceItem <id: {}>", device.getId());
         return device.getId();
+    }
+
+    @Transactional
+    public Device findById(UUID id) {
+        return deviceRepository.findByIdOrFail(id);
     }
 
 }

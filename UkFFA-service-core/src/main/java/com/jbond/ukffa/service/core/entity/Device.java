@@ -23,6 +23,7 @@ public class Device {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Group group;
 
     private boolean allowed;
@@ -32,7 +33,8 @@ public class Device {
     private boolean isAreaEnabled;
 
     @OneToMany(mappedBy = "device", fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("device")
+//    @JsonIgnoreProperties("device")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "device"})
     private List<Property> properties;
 
     public Device(UUID id) {

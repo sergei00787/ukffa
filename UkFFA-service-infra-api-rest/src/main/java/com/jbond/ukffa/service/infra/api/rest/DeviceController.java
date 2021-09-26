@@ -14,6 +14,8 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.UUID;
+
 import static org.springframework.http.ResponseEntity.created;
 
 @RestController
@@ -32,6 +34,13 @@ public class DeviceController {
     public List<Device> findAllDevices(){
         return deviceJpaService.findAllDevice();
     }
+
+    @ApiOperation(value = "Get device by Id", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{device_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Device getDeviceById(@PathVariable UUID device_id){
+        return deviceJpaService.findDeviceById(device_id);
+    }
+
 
     @ApiOperation(value = "Create new device item", produces = "application/json")
     @PostMapping("/")
