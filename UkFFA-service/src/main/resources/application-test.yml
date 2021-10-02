@@ -1,14 +1,31 @@
+#spring:
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    username: postgres
+#    password: post
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    database: postgresql
+#    open-in-view: true
+#    generate-ddl: true
+
 spring:
   datasource:
-    driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: post
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    database: postgresql
-    open-in-view: true
-    generate-ddl: true
-
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        #format_sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true

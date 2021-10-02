@@ -39,6 +39,7 @@ public class DeviceService {
         return device.getId();
     }
 
+
     @Transactional
     public Device findById(UUID id) {
         return deviceRepository.findByIdOrFail(id);

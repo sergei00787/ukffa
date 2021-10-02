@@ -2,6 +2,7 @@ package com.jbond.ukffa.service.infra.api.rest;
 
 
 import com.jbond.ukffa.service.api.DeviceService;
+import com.jbond.ukffa.service.core.dto.DeviceDTO;
 import com.jbond.ukffa.service.core.entity.Device;
 import com.jbond.ukffa.service.infra.jpa.DeviceJpaService;
 import io.swagger.annotations.Api;
@@ -45,10 +46,10 @@ public class DeviceController {
     @ApiOperation(value = "Create new device item", produces = "application/json")
     @PostMapping("/")
     ResponseEntity<?> createDevice(UriComponentsBuilder uriComponentsBuilder,
-                                       @RequestBody Device device) {
-        UriComponents uriComponents = uriComponentsBuilder
-                .path(BASE_URI + "/{deviceId}")
+                                       @RequestBody DeviceDTO device) {
 
+        UriComponents uriComponents = uriComponentsBuilder
+                .path(BASE_URI + "/")
                 .buildAndExpand(
                         deviceService.createDeviceItem(device.getId(), device.getSerial(),
                                 device.getName(), device.getGroup(), device.isAllowed(), device.getImage(),

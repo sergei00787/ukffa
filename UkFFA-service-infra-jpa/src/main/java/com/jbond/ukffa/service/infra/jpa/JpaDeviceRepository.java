@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 public interface JpaDeviceRepository extends CrudRepository<Device, UUID>, DeviceRepository {
     @Override
-    @Query("select d from Device d JOIN FETCH d.group")
+    //@Query("select d from Device d JOIN FETCH d.group")
     Iterable<Device> findAll();
 
     @Override

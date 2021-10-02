@@ -19,7 +19,7 @@ public class Property {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "device_id", referencedColumnName = "id")
-    @JsonIgnoreProperties("group")
+    @JsonIgnoreProperties(value = {"group","properties"})
     private Device device;
 
     private boolean inherited;

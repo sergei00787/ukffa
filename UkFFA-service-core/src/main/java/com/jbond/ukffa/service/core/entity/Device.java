@@ -1,6 +1,8 @@
 package com.jbond.ukffa.service.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,9 +23,10 @@ public class Device {
     private int serial;
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Group group;
 
     private boolean allowed;
@@ -32,9 +35,10 @@ public class Device {
 
     private boolean isAreaEnabled;
 
-    @OneToMany(mappedBy = "device", fetch = FetchType.LAZY)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    @OneToMany(mappedBy = "device", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 //    @JsonIgnoreProperties("device")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "device"})
+    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "device"})
     private List<Property> properties;
 
     public Device(UUID id) {
