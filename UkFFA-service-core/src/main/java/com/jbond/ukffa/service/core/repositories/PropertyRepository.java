@@ -9,7 +9,5 @@ public interface PropertyRepository {
 
     Property save(Property property);
 
-    Optional<Property> findById(UUID id);
-
     void deleteAll();
 }

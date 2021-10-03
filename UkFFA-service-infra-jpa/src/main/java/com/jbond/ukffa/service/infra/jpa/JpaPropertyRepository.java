@@ -11,4 +11,7 @@ public interface JpaPropertyRepository extends CrudRepository<Property, UUID>, P
     @Override
     @Query("select p from Property p JOIN FETCH p.device")
     Iterable<Property> findAll();
+
+    @Override
+    Property save(Property property);
 }

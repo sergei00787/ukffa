@@ -23,7 +23,7 @@ public class DeviceJpaServiceTest {
 
     @BeforeEach
     void setUp() {
-        deviceJpaService = new DeviceJpaService(jpaDeviceRepository);
+        //deviceJpaService = new DeviceJpaService(jpaDeviceRepository);
     }
 
     @Test

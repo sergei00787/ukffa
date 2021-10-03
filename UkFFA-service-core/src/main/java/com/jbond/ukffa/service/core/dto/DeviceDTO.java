@@ -11,10 +11,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-@AllArgsConstructor
 public class DeviceDTO {
-    private UUID id = UUID.randomUUID();
-
+    private final UUID id;
     private int serial;
     private String name;
 
@@ -23,7 +21,6 @@ public class DeviceDTO {
     private boolean allowed;
     private String image;
     private String imageColored;
-
     private boolean isAreaEnabled;
 
     public DeviceDTO(UUID id) {
