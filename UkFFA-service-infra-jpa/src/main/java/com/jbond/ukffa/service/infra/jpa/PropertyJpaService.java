@@ -12,10 +12,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PropertyJpaService {
 
-    private final JpaPropertyRepository jpaPropertyRepository;
+    private final PropertyJpaRepository propertyJpaRepository;
 
     public List<Property> getAllProperties(){
-        return (List<Property>) jpaPropertyRepository.findAll();
+        return (List<Property>) propertyJpaRepository.findAll();
     }
 
 }

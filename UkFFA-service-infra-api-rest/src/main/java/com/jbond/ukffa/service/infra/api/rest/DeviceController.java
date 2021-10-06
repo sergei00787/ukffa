@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +18,7 @@ import java.util.UUID;
 @RequestMapping(DeviceController.BASE_URI)
 @Api(value = "API to devices", produces = "application/json")
 @RequiredArgsConstructor
-public class DeviceController{
+public class DeviceController {
 
     protected static final String BASE_URI = "${spring.data.rest.base-path}/devices";
 
@@ -40,17 +39,23 @@ public class DeviceController{
 
     @ApiOperation(value = "Create new device item", produces = "application/json")
     @PostMapping("/")
-    ResponseEntity<?> createDevice(UriComponentsBuilder uriComponentsBuilder,
-                                   @RequestBody Device device) {
+    ResponseEntity<?> createDevice(@RequestBody Device device) {
         UUID createdId = deviceJpaService.createDevice(device);
         ResponseEntity<?> responseEntity;
 
         if (createdId == null) {
-            responseEntity = new ResponseEntity<String>("Bad request on created devece - " + device.getId(), HttpStatus.BAD_REQUEST);
+            responseEntity = new ResponseEntity<>("Bad request on created devece - " + device.getId(), HttpStatus.BAD_REQUEST);
+        } else {
+            responseEntity = new ResponseEntity<>(device, HttpStatus.CREATED);
         }
-
-        responseEntity = new ResponseEntity<Device>(device, HttpStatus.CREATED);
         return responseEntity;
     }
+
+    @ApiOperation(value = "Delete device item")
+    @DeleteMapping("/{device_id}")
+    public void deleteDeviceByID(@PathVariable UUID device_id) {
+        deviceJpaService.deleteDeviceById(device_id);
+    }
+
 
 }

@@ -18,4 +18,6 @@ public interface DeviceRepository {
 
     void deleteAll();
 
+    //void deleteByID(UUID id);
+
 }

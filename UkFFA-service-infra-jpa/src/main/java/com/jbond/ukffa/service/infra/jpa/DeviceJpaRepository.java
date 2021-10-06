@@ -27,5 +27,6 @@ public interface JpaDeviceRepository extends CrudRepository<Device, UUID>, Devic
     @Override
     Device save(Device device);
 
-
+    @Override
+    void deleteById(UUID uuid);
 }

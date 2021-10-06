@@ -1,12 +1,10 @@
 package com.jbond.ukffa.service.api;
 
-import com.jbond.ukffa.service.core.dto.DeviceDTO;
 import com.jbond.ukffa.service.core.entity.Device;
 import com.jbond.ukffa.service.core.entity.Group;
 import com.jbond.ukffa.service.core.repositories.DeviceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,11 +19,10 @@ public class DeviceService {
 
     @Transactional
     public Device createDeviceItem(UUID id, int serial, String name, Group group, boolean allowed,
-                                 String image, String imageColored, boolean isAreaEnabled) {
+                                   String image, String imageColored, boolean isAreaEnabled) {
         Device device = new Device(id, serial, name, group, allowed,
                 image, imageColored, isAreaEnabled, null);
 
-        //deviceRepository.save(device);
         log.info("Created a new Device <id: {}>", device.getId());
         return device;
     }
@@ -36,5 +33,9 @@ public class DeviceService {
         return deviceRepository.findByIdOrFail(id);
     }
 
+//    @Transactional
+//    public void deleteByID(UUID id) {
+//        deviceRepository.deleteByID(id);
+//    }
 
 }

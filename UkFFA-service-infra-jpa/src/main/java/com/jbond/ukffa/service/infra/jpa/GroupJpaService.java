@@ -12,10 +12,10 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class GroupJpaService {
-    private final JpaGroupRepository jpaGroupRepository;
+    private final GroupJpaRepository groupJpaRepository;
 
     @Transactional
     public List<Group> getAllGroups(){
-        return  (List<Group>) jpaGroupRepository.findAll();
+        return  (List<Group>) groupJpaRepository.findAll();
     }
 }

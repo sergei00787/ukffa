@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;
 
-public interface JpaPropertyRepository extends CrudRepository<Property, UUID>, PropertyRepository {
+public interface PropertyJpaRepository extends CrudRepository<Property, UUID>, PropertyRepository {
     @Override
     @Query("select p from Property p JOIN FETCH p.device")
     Iterable<Property> findAll();

@@ -15,8 +15,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class DeviceJpaService {
 
-    private final JpaDeviceRepository jpaDeviceRepository;
-    private final JpaPropertyRepository jpaPropertyRepository;
+    private final DeviceJpaRepository deviceJPARepository;
+    private final PropertyJpaRepository propertyJpaRepository;
 
 
     @Transactional
@@ -27,24 +27,30 @@ public class DeviceJpaService {
 
     @Transactional
     public Device findDeviceById(UUID id) {
-        return jpaDeviceRepository.findById(id).orElse(null);
+        return deviceJPARepository.findById(id).orElse(null);
     }
 
     @Transactional
     public UUID createDevice(Device device) {
-        jpaDeviceRepository.save(device);
+        deviceJPARepository.save(device);
 
         List<Property> properties = device.getProperties();
         if (properties != null && properties.size() > 0) {
             properties.forEach(prop -> {
                 prop.setDevice(device);
-                jpaPropertyRepository.save(prop);
+                propertyJpaRepository.save(prop);
             });
 
         }
 
         log.info("Created a new DeviceItem <id: {}>", device.getId());
         return device.getId();
+    }
+
+    @Transactional
+    public void deleteDeviceById(UUID id){
+        log.info("Delete a Device <id: {}>", id);
+        deviceJPARepository.deleteById(id);
     }
 
 }

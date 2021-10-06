@@ -3,7 +3,7 @@ package com.jbond.ukffa.infra.jpa;
 import com.jbond.ukffa.service.core.entity.Device;
 import com.jbond.ukffa.service.core.entity.Group;
 import com.jbond.ukffa.service.infra.jpa.DeviceJpaService;
-import com.jbond.ukffa.service.infra.jpa.JpaDeviceRepository;
+import com.jbond.ukffa.service.infra.jpa.DeviceJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +27,7 @@ import java.util.UUID;
 public class DeviceJpaServiceTest {
 
     @Mock
-    private JpaDeviceRepository jpaDeviceRepository;
+    private DeviceJpaRepository deviceJPARepository;
 
     @Autowired
     @InjectMocks
@@ -53,16 +53,16 @@ public class DeviceJpaServiceTest {
 
     @Test
     public void testGetAllDevice(){
-        jpaDeviceRepository.save(device1);
+        deviceJPARepository.save(device1);
 
-        when(jpaDeviceRepository.findAll()).thenReturn(deviceList);
+        when(deviceJPARepository.findAll()).thenReturn(deviceList);
 
         List<Device> devices = deviceJpaService.findAllDevice();
         System.out.println(devices);
 
         assertEquals(devices, deviceList);
-        verify(jpaDeviceRepository, times(1)).save(device1);
-        verify(jpaDeviceRepository, times(1)).findAll();
+        verify(deviceJPARepository, times(1)).save(device1);
+        verify(deviceJPARepository, times(1)).findAll();
 
         assertNotNull(devices);
     }
@@ -70,14 +70,14 @@ public class DeviceJpaServiceTest {
     @Test
     void createDeviceShouldReturnDevice() {
         //stubbing
-        when(jpaDeviceRepository.save(any())).thenReturn(device1);
+        when(deviceJPARepository.save(any())).thenReturn(device1);
         deviceJpaService.createDevice(device1);
-        verify(jpaDeviceRepository,times(1)).save(any());
+        verify(deviceJPARepository,times(1)).save(any());
     }
 
     @Test
     public void givenIdThenShouldReturnDeviceOfThatId() {
-        Mockito.when(jpaDeviceRepository.findById(UUID.fromString("71ac1110-26b1-11ec-9621-0242ac130002"))).thenReturn(Optional.ofNullable(device1));
+        Mockito.when(deviceJPARepository.findById(UUID.fromString("71ac1110-26b1-11ec-9621-0242ac130002"))).thenReturn(Optional.ofNullable(device1));
         assertThat(deviceJpaService.findDeviceById(device1.getId())).isEqualTo(device1);
     }
 
