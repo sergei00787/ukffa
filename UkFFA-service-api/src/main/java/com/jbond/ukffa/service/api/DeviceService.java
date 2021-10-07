@@ -33,9 +33,5 @@ public class DeviceService {
         return deviceRepository.findByIdOrFail(id);
     }
 
-//    @Transactional
-//    public void deleteByID(UUID id) {
-//        deviceRepository.deleteByID(id);
-//    }
 
 }

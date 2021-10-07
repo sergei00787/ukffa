@@ -29,4 +29,11 @@ public interface JpaDeviceRepository extends CrudRepository<Device, UUID>, Devic
 
     @Override
     void deleteById(UUID uuid);
+
+    @Override
+    void deleteAll(Iterable<? extends Device> entities);
+
+    default void deleteAll(){
+        deleteAll(findAll());
+    };
 }

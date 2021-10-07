@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -55,6 +56,18 @@ public class DeviceController {
     @DeleteMapping("/{device_id}")
     public void deleteDeviceByID(@PathVariable UUID device_id) {
         deviceJpaService.deleteDeviceById(device_id);
+    }
+
+    @ApiOperation(value = "Delete All devices")
+    @DeleteMapping("/")
+    public void deleteAllDevices(){
+        deviceJpaService.deleteAllDevices();
+    }
+
+    @ApiOperation(value = "Delete list devices", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public void deleteDevices(@RequestParam ArrayList<UUID> listDeviceIds){
+        deviceJpaService.deleteDevices(listDeviceIds);
     }
 
 

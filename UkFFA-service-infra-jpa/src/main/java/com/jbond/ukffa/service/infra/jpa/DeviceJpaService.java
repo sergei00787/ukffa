@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,6 +52,20 @@ public class DeviceJpaService {
     public void deleteDeviceById(UUID id){
         log.info("Delete a Device <id: {}>", id);
         deviceJPARepository.deleteById(id);
+    }
+
+    @Transactional
+    public void deleteAllDevices(){
+        log.info("Delete all Devices");
+        deviceJPARepository.deleteAll();
+    }
+
+    @Transactional
+    public void deleteDevices(ArrayList<UUID> listDeviceIds) {
+        log.info("Delete list Devices");
+        for (UUID id: listDeviceIds) {
+            deviceJPARepository.deleteById(id);
+        }
     }
 
 }
