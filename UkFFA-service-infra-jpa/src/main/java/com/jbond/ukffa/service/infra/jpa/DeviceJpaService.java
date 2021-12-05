@@ -19,11 +19,9 @@ public class DeviceJpaService {
     private final DeviceJpaRepository deviceJPARepository;
     private final PropertyJpaRepository propertyJpaRepository;
 
-
     @Transactional
     public List<Device> findAllDevice() {
-        List<Device> devices = (List<Device>) jpaDeviceRepository.findAll();
-        return devices;
+        return (List<Device>) deviceJPARepository.findAll();
     }
 
     @Transactional

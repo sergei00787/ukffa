@@ -27,7 +27,6 @@ public class DeviceService {
         return device;
     }
 
-
     @Transactional
     public Device findById(UUID id) {
         return deviceRepository.findByIdOrFail(id);
