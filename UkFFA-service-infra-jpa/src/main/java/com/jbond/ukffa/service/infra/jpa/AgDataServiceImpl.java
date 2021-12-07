@@ -3,9 +3,7 @@ package com.jbond.ukffa.service.infra.jpa;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 
-import java.util.List;
-
-public class AgDataServiceImpl implements AgDataService{
+public class AgDataServiceImpl implements AgDataService {
 
 
     @Override

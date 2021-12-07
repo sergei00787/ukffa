@@ -6,20 +6,19 @@ import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AgLoginServiceTest {
 
     @Test
-    public void testGetAgLoginToken(){
+    public void testGetAgLoginToken() {
         AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
         Mono<String> result = agLoginService.getToken("test_read_only", "tst123");
         System.out.println(result.block());
     }
 
     @Test
-    public void testGetAgEnumSchemas(){
+    public void testGetAgEnumSchemas() {
         AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
         Mono<String> token = agLoginService.getToken("test_read_only", "tst123");
 
@@ -28,7 +27,7 @@ public class AgLoginServiceTest {
 
         List<String> arr = data.collectList().block();
 
-        for (String s: arr) {
+        for (String s : arr) {
             System.out.println(s);
         }
 
