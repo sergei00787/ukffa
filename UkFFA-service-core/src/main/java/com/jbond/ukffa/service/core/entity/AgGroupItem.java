@@ -8,13 +8,13 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AgSchema {
-    @Setter
+public class AgGroupItem {
     @JsonProperty("ID")
     private String id;
 
-    @Getter
-    @Setter
+    @JsonProperty("ParentID")
+    private String parentId;
+
     @JsonProperty("Name")
     private String name;
 }

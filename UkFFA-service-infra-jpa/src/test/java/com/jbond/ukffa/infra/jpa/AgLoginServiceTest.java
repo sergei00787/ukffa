@@ -1,6 +1,8 @@
 package com.jbond.ukffa.infra.jpa;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.jbond.ukffa.service.core.entity.AgDeviceItem;
+import com.jbond.ukffa.service.core.entity.AgEnumDevices;
 import com.jbond.ukffa.service.core.entity.AgSchema;
 import com.jbond.ukffa.service.infra.jpa.AgDataServiceImpl;
 import com.jbond.ukffa.service.infra.jpa.AgLoginServiceImpl;
@@ -46,5 +48,30 @@ public class AgLoginServiceTest {
             System.out.println(as.toString());
         }
     }
+
+    @Test
+    public void testGetAgEnumDevices() throws JsonProcessingException {
+        AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
+        Mono<String> token = agLoginService.getToken("test_read_only", "test123");
+
+
+        AgDataServiceImpl agDataService = new AgDataServiceImpl();
+        Mono<String> data = agDataService.getMonoEnumSchemas(token.block());
+
+        AgSchema[] agSchemas = agDataService.getEnumSchemaFromMono(data);
+
+        for (AgSchema schema: agSchemas) {
+            Mono<String> monoAgEnumDevices = agDataService.getMonoEnumAgDevice(token.block(), schema);
+            String strMono = monoAgEnumDevices.block();
+
+            AgEnumDevices agEnumDevices = agDataService.getAgEnumDevicesFromMono(monoAgEnumDevices);
+
+            for (AgDeviceItem items: agEnumDevices.getItems()) {
+                System.out.println(items.getProperties());
+            }
+        }
+    }
+
+
 
 }
