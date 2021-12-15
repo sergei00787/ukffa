@@ -1,18 +1,20 @@
-package com.jbond.ukffa.service.core.entity;
+package com.jbond.ukffa.service.core.entity.agentity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AgVirtualTree {
+public class AgGroupItem {
     @JsonProperty("ID")
-    public String id;
+    private String id;
+
+    @JsonProperty("ParentID")
+    private String parentId;
+
     @JsonProperty("Name")
-    public String name;
+    private String name;
 }

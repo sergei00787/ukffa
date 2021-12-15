@@ -1,4 +1,4 @@
-package com.jbond.ukffa.service.core.entity;
+package com.jbond.ukffa.service.core.entity.agentity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,13 +8,13 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AgGroupItem {
+public class AgSchema {
+    @Setter
     @JsonProperty("ID")
     private String id;
 
-    @JsonProperty("ParentID")
-    private String parentId;
-
+    @Getter
+    @Setter
     @JsonProperty("Name")
     private String name;
 }

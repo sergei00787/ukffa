@@ -1,16 +1,19 @@
 package com.jbond.ukffa.service.infra.jpa;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jbond.ukffa.service.core.entity.AgDeviceItem;
-import com.jbond.ukffa.service.core.entity.AgEnumDevices;
-import com.jbond.ukffa.service.core.entity.AgSchema;
+import com.jbond.ukffa.service.core.entity.agentity.AgEnumDevices;
+import com.jbond.ukffa.service.core.entity.agentity.AgSchema;
+import com.jbond.ukffa.service.core.entity.agentity.AgTrips;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
 
 public class AgDataServiceImpl implements AgDataService {
@@ -89,4 +92,42 @@ public class AgDataServiceImpl implements AgDataService {
         AgEnumDevices agEnumDevices = objectMapper.readValue(responseStringAgSchemas, AgEnumDevices.class);
         return agEnumDevices;
     }
+
+
+    @Override
+    public Mono<String> getMonoAgTrips(String token,
+                                       String schema_id,
+                                       String[] id_devices,
+                                       String startDate,
+                                       String endDate,
+                                       int tripSplitterIndex) {
+        Mono<String> result = WebClient.builder().baseUrl("http://212.77.128.19:17201/ServiceJSON/GetTrips")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .codecs(configurer -> configurer
+                        .defaultCodecs()
+                        .maxInMemorySize(64 * 1024 * 1024))
+                .build()
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .queryParam("session", token)
+                        .queryParam("schemaID", schema_id)
+                        .queryParam("IDs", String.join(",", id_devices))
+                        .queryParam("SD", startDate)
+                        .queryParam("ED", endDate)
+                        .queryParam("tripSplitterIndex", tripSplitterIndex)
+                        .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(String.class);
+        return result;
+    }
+
+    @Override
+    public HashMap<String, AgTrips> getMapAgTripsFromMono(Mono<String> monoAgTrips) throws JsonProcessingException {
+        String responseStringAgTrips = monoAgTrips.block();
+        ObjectMapper objectMapper = new ObjectMapper();
+        HashMap<String, AgTrips> agTrips = objectMapper.readValue(responseStringAgTrips, new TypeReference<HashMap<String, AgTrips>>() {});
+        return agTrips;
+    }
+
 }

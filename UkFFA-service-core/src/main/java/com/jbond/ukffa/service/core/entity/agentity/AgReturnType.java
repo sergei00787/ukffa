@@ -1,4 +1,4 @@
-package com.jbond.ukffa.service.core.entity;
+package com.jbond.ukffa.service.core.entity.agentity;
 
 public enum AgReturnType {
     Boolean,

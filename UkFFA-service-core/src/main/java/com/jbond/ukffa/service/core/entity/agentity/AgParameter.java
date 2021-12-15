@@ -1,4 +1,4 @@
-package com.jbond.ukffa.service.core.entity;
+package com.jbond.ukffa.service.core.entity.agentity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

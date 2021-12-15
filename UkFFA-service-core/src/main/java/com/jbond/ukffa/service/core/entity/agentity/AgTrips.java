@@ -1,4 +1,4 @@
-package com.jbond.ukffa.service.core.entity;
+package com.jbond.ukffa.service.core.entity.agentity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,13 +8,14 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.Dictionary;
+import java.util.HashMap;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AgTrips {
-    @JsonProperty("Id")
+    @JsonProperty("ID")
     private String id;         // ID ТС
     @JsonProperty("Name")
     private String name;         // название ТС
@@ -29,5 +30,5 @@ public class AgTrips {
     @JsonProperty("Trips")
     private AgTrip[] trips;        // рейсы
     @JsonProperty("Total")
-    private Dictionary<String, Object> total;    // финальные значения по всем рейсам
+    private HashMap<String, Object> total;    // финальные значения по всем рейсам
 }
