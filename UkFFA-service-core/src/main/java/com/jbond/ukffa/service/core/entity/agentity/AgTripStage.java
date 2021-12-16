@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Dictionary;
+import java.util.HashMap;
 
 @Data
 @NoArgsConstructor
@@ -32,6 +33,6 @@ public class AgTripStage {
     private AgParameterStatus[] statuses;     // список доступных статусов для данного параметра/отрезка
 
     @JsonProperty("Total")
-    private Dictionary<String, Object> total;// финальные данные по отрезку (как правило - суммарные данные по всем Items)
+    private HashMap<String, Object> total;// финальные данные по отрезку (как правило - суммарные данные по всем Items)
 
 }

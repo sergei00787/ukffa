@@ -1,10 +1,7 @@
 package com.jbond.ukffa.infra.jpa;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.jbond.ukffa.service.core.entity.agentity.AgDeviceItem;
-import com.jbond.ukffa.service.core.entity.agentity.AgEnumDevices;
-import com.jbond.ukffa.service.core.entity.agentity.AgSchema;
-import com.jbond.ukffa.service.core.entity.agentity.AgTrips;
+import com.jbond.ukffa.service.core.entity.agentity.*;
 import com.jbond.ukffa.service.infra.jpa.AgDataServiceImpl;
 import com.jbond.ukffa.service.infra.jpa.AgLoginServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -81,9 +78,7 @@ public class AgLoginServiceTest {
     @Test
     public void testGetAgTrips() throws JsonProcessingException {
         AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
-//        Mono<String> token = agLoginService.getToken("test_read_only", "test123");
-        Mono<String> token = agLoginService.getToken("admin", "POIUYTREWQ!@89");
-
+        Mono<String> token = agLoginService.getToken("test_read_only", "test123");
 
         AgDataServiceImpl agDataService = new AgDataServiceImpl();
         Mono<String> data = agDataService.getMonoEnumSchemas(token.block());
@@ -99,16 +94,24 @@ public class AgLoginServiceTest {
         Mono<String> agTripsMono = agDataService.getMonoAgTrips(token.block(),
                 "d28e3930-7faa-469d-9551-7ed561830b09",
                 ids,
-                "20211215-2115",
-                "20211216-2117",
+                "20211215-0800",
+                "20211216-0900",
                 -1
                 );
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println(agTripsMono.block());
-        
+
         HashMap<String, AgTrips> mapAgTrips = agDataService.getMapAgTripsFromMono(agTripsMono);
 
-        System.out.println(mapAgTrips);
+        for (Map.Entry<String, AgTrips> entry: mapAgTrips.entrySet()) {
+            AgTrips trps = entry.getValue();
+            AgTrip[] agTrips = trps.getTrips();
+            System.out.println(agTrips.length);
+            /*
+            for (AgTrip trip: agTrips) {
+                System.out.println(trip);
+            }
+            */
+
+        }
 
         /*
         for (AgSchema schema: agSchemas) {

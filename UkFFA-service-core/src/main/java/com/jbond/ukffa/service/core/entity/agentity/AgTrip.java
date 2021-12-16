@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.Dictionary;
+import java.util.HashMap;
 
 @Data
 @NoArgsConstructor
@@ -28,7 +29,7 @@ public class AgTrip {
     @JsonProperty("Stages")
     private AgTripStage[] stages; // отрезки для данного рейса
     @JsonProperty("Total")
-    private Dictionary<String, Object> total;// параметры для РЕЙСА (визуально это колонки в таблице рейсов после колонок "Начало" и "Конец")
+    private HashMap<String, Object> total;// параметры для РЕЙСА (визуально это колонки в таблице рейсов после колонок "Начало" и "Конец")
     @JsonProperty("Areas")
     private AgTripArea[] areas;   // полигоны обработанных полей (только для методов GetTripsArea, GetTripsAreaTotal, GetTripAreaItems)
 }
