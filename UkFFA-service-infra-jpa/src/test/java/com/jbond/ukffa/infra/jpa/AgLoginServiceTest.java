@@ -81,8 +81,8 @@ public class AgLoginServiceTest {
     @Test
     public void testGetAgTrips() throws JsonProcessingException {
         AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
-//        Mono<String> token = agLoginService.getToken("test_read_only", "test123");
-        Mono<String> token = agLoginService.getToken("admin", "POIUYTREWQ!@89");
+        Mono<String> token = agLoginService.getToken("test_read_only", "test123");
+
 
 
         AgDataServiceImpl agDataService = new AgDataServiceImpl();
