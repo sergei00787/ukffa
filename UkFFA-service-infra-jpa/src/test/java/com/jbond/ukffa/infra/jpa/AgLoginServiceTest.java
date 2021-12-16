@@ -1,7 +1,10 @@
 package com.jbond.ukffa.infra.jpa;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.jbond.ukffa.service.core.entity.agentity.*;
+import com.jbond.ukffa.service.core.entity.agentity.AgDeviceItem;
+import com.jbond.ukffa.service.core.entity.agentity.AgEnumDevices;
+import com.jbond.ukffa.service.core.entity.agentity.AgSchema;
+import com.jbond.ukffa.service.core.entity.agentity.AgTrips;
 import com.jbond.ukffa.service.infra.jpa.AgDataServiceImpl;
 import com.jbond.ukffa.service.infra.jpa.AgLoginServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -79,6 +82,8 @@ public class AgLoginServiceTest {
     public void testGetAgTrips() throws JsonProcessingException {
         AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
         Mono<String> token = agLoginService.getToken("test_read_only", "test123");
+
+
 
         AgDataServiceImpl agDataService = new AgDataServiceImpl();
         Mono<String> data = agDataService.getMonoEnumSchemas(token.block());
