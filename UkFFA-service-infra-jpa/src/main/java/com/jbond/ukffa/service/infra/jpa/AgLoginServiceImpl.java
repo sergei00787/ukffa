@@ -10,7 +10,7 @@ public class AgLoginServiceImpl implements AgLoginService {
     private final String BASE_URL = "http://212.77.128.19:17201/ServiceJSON/Login";
 
     @Override
-    public Mono<String> getToken(String login, String password) {
+    public Mono<String> getMonoToken(String login, String password) {
         LinkedMultiValueMap map = new LinkedMultiValueMap();
         map.add("UserName", login);
         map.add("Password", password);
@@ -23,6 +23,11 @@ public class AgLoginServiceImpl implements AgLoginService {
                 .retrieve()
                 .bodyToMono(String.class);
         return monoToken;
+    }
+
+    @Override
+    public String getToken(String login, String password){
+        return getMonoToken(login, password).block();
     }
 
 

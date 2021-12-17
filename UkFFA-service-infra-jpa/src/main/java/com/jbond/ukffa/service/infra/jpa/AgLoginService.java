@@ -4,6 +4,7 @@ import reactor.core.publisher.Mono;
 
 public interface AgLoginService {
 
-    Mono<String> getToken(String login, String password);
+    Mono<String> getMonoToken(String login, String password);
+    String getToken(String login, String password);
 
 }

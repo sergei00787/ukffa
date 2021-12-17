@@ -11,11 +11,8 @@ import java.util.Dictionary;
 import java.util.HashMap;
 
 public interface AgDataService {
-    Flux<String> getFluxEnumSchemas(String token);
 
     Mono<String> getMonoEnumSchemas(String token);
-
-    AgSchema[] getEnumSchemaFromFlux(Flux<String> flux) throws JsonProcessingException;
 
     AgSchema[] getEnumSchemaFromMono(Mono<String> mono) throws JsonProcessingException;
 
