@@ -2,11 +2,13 @@ package com.jbond.ukffa.infra.jpa;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jbond.ukffa.service.core.entity.agentity.*;
+import com.jbond.ukffa.service.core.utility.AgDateUtility;
 import com.jbond.ukffa.service.infra.jpa.AgDataServiceImpl;
 import com.jbond.ukffa.service.infra.jpa.AgLoginServiceImpl;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,7 +74,7 @@ public class AgLoginServiceTest {
     }
 
     @Test
-    public void testGetAgTrips() throws JsonProcessingException {
+    public void testGetAgTrips() throws JsonProcessingException, ParseException {
         AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
         String token = agLoginService.getToken("test_read_only", "test123");
 
@@ -84,8 +86,8 @@ public class AgLoginServiceTest {
         Mono<String> agTripsMono = agDataService.getMonoAgTrips(token,
                 "d28e3930-7faa-469d-9551-7ed561830b09",
                 ids,
-                "20211215-0800",
-                "20211216-0900",
+                AgDateUtility.convertAgStrLocalTimeToAgStrGMTTime("20211215-0800"),
+                AgDateUtility.convertAgStrLocalTimeToAgStrGMTTime("20211215-1200"),
                 -1
         );
 
@@ -94,10 +96,27 @@ public class AgLoginServiceTest {
         for (Map.Entry<String, AgTrips> entry : mapAgTrips.entrySet()) {
             AgTrips trips = entry.getValue();
             AgTrip[] agTrips = trips.getTrips();
-            System.out.println(agTrips.length);
+
+            long sumDurationMove = agDataService.getSumDurationMoveByTrips(trips);
         }
 
+    }
 
+    @Test
+    public void testFindDevices() throws JsonProcessingException {
+        AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
+        String token = agLoginService.getToken("test_read_only", "test123");
+
+        AgDataServiceImpl agDataService = new AgDataServiceImpl();
+
+        AgFindDevice[] agFindDevices = agDataService.findDevicesByRegNumber(token,
+                "d28e3930-7faa-469d-9551-7ed561830b09",
+                "р474ку");
+
+        System.out.println(agFindDevices.length);
+        for (AgFindDevice agFindDevice: agFindDevices) {
+            System.out.println(agFindDevice);
+        }
 
     }
 

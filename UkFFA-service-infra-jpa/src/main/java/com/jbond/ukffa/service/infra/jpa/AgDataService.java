@@ -1,9 +1,7 @@
 package com.jbond.ukffa.service.infra.jpa;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.jbond.ukffa.service.core.entity.agentity.AgEnumDevices;
-import com.jbond.ukffa.service.core.entity.agentity.AgSchema;
-import com.jbond.ukffa.service.core.entity.agentity.AgTrips;
+import com.jbond.ukffa.service.core.entity.agentity.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -28,4 +26,10 @@ public interface AgDataService {
                                 int tripSplitterIndex);
 
     HashMap<String, AgTrips> getMapAgTripsFromMono(Mono<String> monoAgTrips) throws JsonProcessingException;
+
+    AgFindDevice[] findDevicesByRegNumber(String token, String schemaId, String  regNumber) throws JsonProcessingException;
+
+    long getSumDurationMoveByTrips(AgTrips agtrips);
+    long getSumDurationMove(AgTrip agtrip);
+
 }
