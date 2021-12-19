@@ -7,6 +7,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.List;
 
 public interface AgDataService {
 
@@ -26,10 +27,11 @@ public interface AgDataService {
                                 int tripSplitterIndex);
 
     HashMap<String, AgTrips> getMapAgTripsFromMono(Mono<String> monoAgTrips) throws JsonProcessingException;
+    List<AgTrips> getAgTrips(HashMap<String, AgTrips> map, String deviceId);
 
     AgFindDevice[] findDevicesByRegNumber(String token, String schemaId, String  regNumber) throws JsonProcessingException;
 
-    long getSumDurationMoveByTrips(AgTrips agtrips);
-    long getSumDurationMove(AgTrip agtrip);
+    long getDurationMoveByTrips(AgTrips agtrips);
+    long getDurationMove(AgTrip agtrip);
 
 }

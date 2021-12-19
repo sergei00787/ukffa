@@ -86,6 +86,8 @@ public class AgLoginServiceTest {
         Mono<String> agTripsMono = agDataService.getMonoAgTrips(token,
                 "d28e3930-7faa-469d-9551-7ed561830b09",
                 ids,
+                //"20211215-0800",
+                //"20211215-1200",
                 AgDateUtility.convertAgStrLocalTimeToAgStrGMTTime("20211215-0800"),
                 AgDateUtility.convertAgStrLocalTimeToAgStrGMTTime("20211215-1200"),
                 -1
@@ -97,7 +99,8 @@ public class AgLoginServiceTest {
             AgTrips trips = entry.getValue();
             AgTrip[] agTrips = trips.getTrips();
 
-            long sumDurationMove = agDataService.getSumDurationMoveByTrips(trips);
+            long sumDurationMove = agDataService.getDurationMoveByTrips(trips);
+            System.out.println(sumDurationMove);
         }
 
     }

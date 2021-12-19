@@ -4,11 +4,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class AgDateUtility {
 
-    public static long getSecondFromStringDuration(String duration){
+    public static long getSecondFromStringDuration(String duration) {
         String[] arrDuration = duration.split(":");
 
         return Long.parseLong(arrDuration[0]) * 60 * 60

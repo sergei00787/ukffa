@@ -1,6 +1,7 @@
 package com.jbond.ukffa.service.core.entity.agentity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 @Data
 @NoArgsConstructor
@@ -19,8 +21,10 @@ public class AgTrip {
     @JsonProperty("Index")
     private int index;           // порядковый номер рейса (с 0)
     @JsonProperty("SD")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date sd;         // дата/время начала рейса (в UTC)
     @JsonProperty("ED")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date ed;         // дата/время конца рейса (в UTC)
     @JsonProperty("PointStart")
     private AgPoint pointStart;   // координата начала рейса

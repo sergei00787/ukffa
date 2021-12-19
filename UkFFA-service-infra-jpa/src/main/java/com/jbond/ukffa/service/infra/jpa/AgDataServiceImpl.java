@@ -10,10 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class AgDataServiceImpl implements AgDataService {
     public static String baseAgUrl = "http://212.77.128.19:17201/ServiceJSON";
@@ -121,37 +120,50 @@ public class AgDataServiceImpl implements AgDataService {
         return objectMapper.readValue(agDeviceItem, AgFindDevice[].class);
     }
 
+    @Override
     public List<AgTrips> getAgTrips(HashMap<String, AgTrips> map, String deviceId) {
-        List<AgTrips> listAgTrips = null;
+        ArrayList<AgTrips> listAgTrips = new ArrayList<>();
+        AgTrips agTrips = map.get(deviceId);
+        listAgTrips.add(agTrips);
+
+        /*
         for (Map.Entry entry : map.entrySet()) {
             if (entry.getKey() == deviceId) {
-                listAgTrips.add((AgTrips) entry.getValue());
+                if (entry.getValue() != null) {
+                    listAgTrips.add((AgTrips) entry.getValue());
+                }
+
             }
         }
+        */
         return listAgTrips;
     }
 
     @Override
-    public long getSumDurationMoveByTrips(AgTrips agtrips) {
+    public long getDurationMoveByTrips(AgTrips agtrips) {
         long sumDurationMove = 0L;
         for (AgTrip agTrip : agtrips.getTrips()) {
-            sumDurationMove = sumDurationMove + getSumDurationMove(agTrip);
-            System.out.println(sumDurationMove);
+            sumDurationMove = sumDurationMove + getDurationMove(agTrip);
         }
         return sumDurationMove;
     }
 
     @Override
-    public long getSumDurationMove(AgTrip agtrip) {
+    public long getDurationMove(AgTrip agtrip) {
         long duration = 0L;
         for (AgTripStage agTripStage : agtrip.getStages()) {
+
             if (agTripStage.getName().equals("FlagMove")) {
+                String moveDuration = (String) agTripStage.getTotal().get("MoveDuration");
+                System.out.println("MoveDur = " + moveDuration);
+                duration = AgDateUtility.getSecondFromStringDuration(moveDuration);
+/*
                 for (AgTripStageItem agTripStageItem : agTripStage.getItems()) {
                     long curDuration = AgDateUtility.getSecondFromStringDuration((String) agTripStageItem.getValues()[8]);
                     duration = duration + curDuration;
                 }
+                */
             }
-
         }
 
         return duration;
