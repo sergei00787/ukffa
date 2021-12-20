@@ -155,17 +155,21 @@ public class AgDataServiceImpl implements AgDataService {
 
             if (agTripStage.getName().equals("FlagMove")) {
                 String moveDuration = (String) agTripStage.getTotal().get("MoveDuration");
-                System.out.println("MoveDur = " + moveDuration);
-                duration = AgDateUtility.getSecondFromStringDuration(moveDuration);
-/*
+                System.out.println("MoveDurTotal = " + moveDuration);
+                //duration = AgDateUtility.getSecondFromStringDuration(moveDuration);
+
                 for (AgTripStageItem agTripStageItem : agTripStage.getItems()) {
-                    long curDuration = AgDateUtility.getSecondFromStringDuration((String) agTripStageItem.getValues()[8]);
-                    duration = duration + curDuration;
+                    if (agTripStageItem.getCaption().equals("Move")){
+                        long curDuration = AgDateUtility.getSecondFromStringDuration((String) agTripStageItem.getValues()[9]);
+                        duration = duration + curDuration;
+                        System.out.println("SD = " + agTripStageItem.getSd() + "ED = " + agTripStageItem.getEd());
+                        System.out.println(agTripStageItem.getValues()[9]);
+                    }
                 }
-                */
+
             }
         }
-
+        System.out.println("MoveDur = " + duration);
         return duration;
     }
 
