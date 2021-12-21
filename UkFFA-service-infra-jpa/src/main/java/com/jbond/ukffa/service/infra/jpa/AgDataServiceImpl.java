@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AgDataServiceImpl implements AgDataService {
-    public String baseAgUrl = "http://212.77.128.19:17201/ServiceJSON";
+    public String baseAgUrl;
 
     public AgDataServiceImpl(String baseUrl){
         this.baseAgUrl = baseUrl;

@@ -6,6 +6,7 @@ import com.jbond.ukffa.service.infra.jpa.AgDataServiceImpl;
 import com.jbond.ukffa.service.infra.jpa.AgLoginServiceImpl;
 import com.jbond.ukffa.service.infra.jpa.AgSchemaServiceImpl;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
@@ -15,6 +16,8 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AgLoginServiceTest {
+
+    public String baseURL = "http://212.77.128.19:17201/ServiceJSON";
 
     @Test
     public void testGetAgLoginToken() {
@@ -29,7 +32,7 @@ public class AgLoginServiceTest {
         AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
         String token = agLoginService.getToken("test_read_only", "test123");
 
-        AgSchemaServiceImpl agSchemaService = new AgSchemaServiceImpl("http://212.77.128.19:17201/ServiceJSON");
+        AgSchemaServiceImpl agSchemaService = new AgSchemaServiceImpl(baseURL);
         Mono<String> data = agSchemaService.getMonoEnumSchemas(token);
 
         AgSchema[] agSchemas = agSchemaService.getEnumSchemaFromMono(data);
@@ -46,7 +49,7 @@ public class AgLoginServiceTest {
 
     @Test
     public void testGetAgEnumSchemas2(){
-        AgSchemaServiceImpl agSchemaService = new AgSchemaServiceImpl("http://212.77.128.19:17201/ServiceJSON");
+        AgSchemaServiceImpl agSchemaService = new AgSchemaServiceImpl(baseURL);
         AgSchema[] agSchemas =  agSchemaService.getEnumSchema("test_read_only", "test123");
 
         String[] expectedAgSchemaNames = new String[]{"ООО ПромАльянс", "ПАО Мечел", "ПАО ЮК"};
@@ -65,8 +68,8 @@ public class AgLoginServiceTest {
         String token = agLoginService.getToken("test_read_only", "test123");
 
 
-        AgSchemaServiceImpl agSchemaService = new AgSchemaServiceImpl("http://212.77.128.19:17201/ServiceJSON");
-        AgDataServiceImpl agDataService = new AgDataServiceImpl("http://212.77.128.19:17201/ServiceJSON");
+        AgSchemaServiceImpl agSchemaService = new AgSchemaServiceImpl(baseURL);
+        AgDataServiceImpl agDataService = new AgDataServiceImpl(baseURL);
         Mono<String> data = agSchemaService.getMonoEnumSchemas(token);
 
         AgSchema[] agSchemas = agSchemaService.getEnumSchemaFromMono(data);
@@ -80,8 +83,6 @@ public class AgLoginServiceTest {
                 System.out.println(items.getProperties());
             }
         }
-
-        //Assertions.assertTrue();
     }
 
     @Test
@@ -90,7 +91,7 @@ public class AgLoginServiceTest {
         AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
         String token = agLoginService.getToken("test_read_only", "test123");
 
-        AgDataServiceImpl agDataService = new AgDataServiceImpl("http://212.77.128.19:17201/ServiceJSON");
+        AgDataServiceImpl agDataService = new AgDataServiceImpl(baseURL);
 
         String[] ids = new String[1];
         ids[0] = "8f42b56a-f8ca-4214-b2d2-1d7a0b532dab";
@@ -121,7 +122,7 @@ public class AgLoginServiceTest {
         AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
         String token = agLoginService.getToken("test_read_only", "test123");
 
-        AgDataServiceImpl agDataService = new AgDataServiceImpl("http://212.77.128.19:17201/ServiceJSON");
+        AgDataServiceImpl agDataService = new AgDataServiceImpl(baseURL);
 
         AgFindDevice[] agFindDevices = agDataService.findDevicesByRegNumber(token,"d28e3930-7faa-469d-9551-7ed561830b09","р923ет");
 
