@@ -49,7 +49,7 @@ public class AgTripsService implements IAgTripsService {
     public HashMap<String, AgTrips> getMapAgTripsFromMono(Mono<String> monoAgTrips) throws JsonProcessingException {
         String responseStringAgTrips = monoAgTrips.block();
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(responseStringAgTrips, new TypeReference<HashMap<String, AgTrips>>() {
+        return objectMapper.readValue(responseStringAgTrips, new TypeReference<>() {
         });
     }
 
@@ -67,13 +67,11 @@ public class AgTripsService implements IAgTripsService {
                               String startDate,
                               String endDate,
                               int tripSplitterIndex) throws JsonProcessingException {
-        AgLoginService agLoginService = new AgLoginService();
+        AgLoginService agLoginService = new AgLoginService(baseAgUrl);
         String token = agLoginService.getToken(login, password);
-        List<AgTrips> agTripsList = getListAgTrips(
-                getMapAgTripsFromMono(
-                        getMonoAgTrips(token,schema_id,new String[]{id_device},startDate,endDate, tripSplitterIndex)), id_device);
-
-        return agTripsList;
+        Mono<String> monoAgTrips = getMonoAgTrips(token,schema_id,new String[]{id_device},startDate,endDate, tripSplitterIndex);
+        HashMap<String, AgTrips> mapAgTrips = getMapAgTripsFromMono(monoAgTrips);
+        return getListAgTrips(mapAgTrips, id_device);
     }
 
 

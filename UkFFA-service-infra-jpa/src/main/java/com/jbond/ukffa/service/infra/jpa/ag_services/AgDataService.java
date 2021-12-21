@@ -2,17 +2,18 @@ package com.jbond.ukffa.service.infra.jpa.ag_services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jbond.ukffa.service.core.entity.agentity.*;
+import com.jbond.ukffa.service.core.entity.agentity.AgFindDevice;
+import com.jbond.ukffa.service.core.entity.agentity.AgTrip;
+import com.jbond.ukffa.service.core.entity.agentity.AgTrips;
 import com.jbond.ukffa.service.core.utility.AgDateUtility;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 public class AgDataService implements IAgDataService {
     public String baseAgUrl;
 
-    public AgDataService(String baseUrl){
+    public AgDataService(String baseUrl) {
         this.baseAgUrl = baseUrl;
     }
 
@@ -38,7 +39,6 @@ public class AgDataService implements IAgDataService {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(agDeviceItem, AgFindDevice[].class);
     }
-
 
 
     @Override

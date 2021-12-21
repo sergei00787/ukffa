@@ -36,7 +36,7 @@ public class AgSchemaService implements IAgSchamaService {
 
     @Override
     public AgSchema[] getEnumSchema(String login, String password) {
-        AgLoginService agLoginService = new AgLoginService();
+        AgLoginService agLoginService = new AgLoginService(baseAgUrl);
         String token = agLoginService.getToken(login, password);
         try {
             return getEnumSchemaFromMono(getMonoEnumSchemas(token));

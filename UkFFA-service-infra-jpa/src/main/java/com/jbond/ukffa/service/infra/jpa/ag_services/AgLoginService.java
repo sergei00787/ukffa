@@ -7,16 +7,19 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 public class AgLoginService implements IAgLoginService {
+    private String baseUrl = "http://212.77.128.19:17201/ServiceJSON/Login";
 
-    private final String BASE_URL = "http://212.77.128.19:17201/ServiceJSON/Login";
+    public AgLoginService(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
 
     private Mono<String> getMonoToken(String login, String password) {
-        LinkedMultiValueMap map = new LinkedMultiValueMap();
+        LinkedMultiValueMap<String, String> map = new LinkedMultiValueMap();
         map.add("UserName", login);
         map.add("Password", password);
 
         Mono<String> monoToken = WebClient.builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(baseUrl)
                 .build()
                 .post()
                 .body(BodyInserters.fromMultipartData(map))

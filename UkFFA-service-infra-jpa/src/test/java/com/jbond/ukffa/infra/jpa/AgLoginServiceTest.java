@@ -19,20 +19,20 @@ public class AgLoginServiceTest {
 
     @Test
     public void testGetAgLoginToken() {
-        AgLoginService agLoginService = new AgLoginService();
+        AgLoginService agLoginService = new AgLoginService(baseURL);
         String result = agLoginService.getToken("test_read_only", "test123");
 
         String expectedToken = "F8C5D8E87B38BAED2D93F798A992E7359D8DD5684E6D9A68E1AE362192FC1FA2";
         assertEquals(expectedToken, result);
 
-        RuntimeException runtimeException = Assertions.assertThrows(
+        Assertions.assertThrows(
                 RuntimeException.class,
                 () -> agLoginService.getToken("tess", "test3"));
     }
 
     @Test
     public void testGetAgEnumSchemas() throws JsonProcessingException {
-        AgLoginService agLoginService = new AgLoginService();
+        AgLoginService agLoginService = new AgLoginService(baseURL);
         String token = agLoginService.getToken("test_read_only", "test123");
 
         AgSchemaService agSchemaService = new AgSchemaService(baseURL);
@@ -67,7 +67,7 @@ public class AgLoginServiceTest {
 
     @Test
     public void testGetAgEnumDevices() throws JsonProcessingException {
-        IAgLoginService agLoginService = new AgLoginService();
+        IAgLoginService agLoginService = new AgLoginService(baseURL);
         String token = agLoginService.getToken("test_read_only", "test123");
 
 
@@ -87,14 +87,8 @@ public class AgLoginServiceTest {
     @Test
     @DisplayName("Test get ag trips and return duration move")
     public void testGetAgTrips() throws JsonProcessingException {
-        AgLoginService agLoginService = new AgLoginService();
-        String token = agLoginService.getToken("test_read_only", "test123");
-
         IAgDataService agDataService = new AgDataService(baseURL);
         IAgTripsService agTripsService = new AgTripsService(baseURL);
-
-        String[] ids = new String[1];
-        ids[0] = "8f42b56a-f8ca-4214-b2d2-1d7a0b532dab";
 
         List<AgTrips> agTrips = agTripsService.getTrips("test_read_only",
                 "test123",
@@ -113,7 +107,7 @@ public class AgLoginServiceTest {
 
     @Test
     public void testFindDevices() throws JsonProcessingException {
-        AgLoginService agLoginService = new AgLoginService();
+        AgLoginService agLoginService = new AgLoginService(baseURL);
         String token = agLoginService.getToken("test_read_only", "test123");
 
         IAgDataService agDataService = new AgDataService(baseURL);

@@ -17,7 +17,6 @@ public class AgStagesService implements IAgStagesService {
     }
 
     public String findFirstCardIdDriverInPeriodShift(String startDate, String endDate, AgDeviceItem deviceItem){
-
         return "";
     }
 
@@ -42,7 +41,7 @@ public class AgStagesService implements IAgStagesService {
 
     @Override
     public AgSchema[] getEnumSchema(String login, String password) {
-        AgLoginService agLoginService = new AgLoginService();
+        AgLoginService agLoginService = new AgLoginService(baseAgUrl);
         String token = agLoginService.getToken(login, password);
         try {
             return getEnumSchemaFromMono(getMonoEnumSchemas(token));
