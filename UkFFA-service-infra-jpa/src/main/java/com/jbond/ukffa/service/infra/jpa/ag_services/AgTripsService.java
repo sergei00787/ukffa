@@ -1,9 +1,8 @@
-package com.jbond.ukffa.service.infra.jpa;
+package com.jbond.ukffa.service.infra.jpa.ag_services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jbond.ukffa.service.core.entity.agentity.AgSchema;
 import com.jbond.ukffa.service.core.entity.agentity.AgTrips;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -14,10 +13,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class AgTripsServiceImpl implements AgTripsService {
+public class AgTripsService implements IAgTripsService {
     public String baseAgUrl;
 
-    public AgTripsServiceImpl(String baseUrl){
+    public AgTripsService(String baseUrl){
         this.baseAgUrl = baseUrl;
     }
 
@@ -68,7 +67,7 @@ public class AgTripsServiceImpl implements AgTripsService {
                               String startDate,
                               String endDate,
                               int tripSplitterIndex) throws JsonProcessingException {
-        AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
+        AgLoginService agLoginService = new AgLoginService();
         String token = agLoginService.getToken(login, password);
         List<AgTrips> agTripsList = getListAgTrips(
                 getMapAgTripsFromMono(
@@ -76,4 +75,6 @@ public class AgTripsServiceImpl implements AgTripsService {
 
         return agTripsList;
     }
+
+
 }

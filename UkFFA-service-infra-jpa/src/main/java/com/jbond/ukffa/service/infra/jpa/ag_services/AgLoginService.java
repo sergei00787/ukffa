@@ -1,16 +1,16 @@
-package com.jbond.ukffa.service.infra.jpa;
+package com.jbond.ukffa.service.infra.jpa.ag_services;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-public class AgLoginServiceImpl implements AgLoginService {
+public class AgLoginService implements IAgLoginService {
 
     private final String BASE_URL = "http://212.77.128.19:17201/ServiceJSON/Login";
 
-    @Override
-    public Mono<String> getMonoToken(String login, String password) {
+    private Mono<String> getMonoToken(String login, String password) {
         LinkedMultiValueMap map = new LinkedMultiValueMap();
         map.add("UserName", login);
         map.add("Password", password);
@@ -21,6 +21,8 @@ public class AgLoginServiceImpl implements AgLoginService {
                 .post()
                 .body(BodyInserters.fromMultipartData(map))
                 .retrieve()
+                .onStatus(HttpStatus::is4xxClientError, clientResponse -> Mono.error(new RuntimeException("Client Error"+ clientResponse.logPrefix())))
+                .onStatus(HttpStatus::is5xxServerError, clientResponse -> Mono.error(new RuntimeException("Server Error"+ clientResponse.logPrefix())))
                 .bodyToMono(String.class);
         return monoToken;
     }

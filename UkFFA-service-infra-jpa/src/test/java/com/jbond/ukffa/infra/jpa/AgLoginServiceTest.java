@@ -2,17 +2,16 @@ package com.jbond.ukffa.infra.jpa;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jbond.ukffa.service.core.entity.agentity.*;
-import com.jbond.ukffa.service.infra.jpa.*;
+import com.jbond.ukffa.service.infra.jpa.ag_services.*;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class AgLoginServiceTest {
 
@@ -20,18 +19,23 @@ public class AgLoginServiceTest {
 
     @Test
     public void testGetAgLoginToken() {
-        AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
+        AgLoginService agLoginService = new AgLoginService();
         String result = agLoginService.getToken("test_read_only", "test123");
+
         String expectedToken = "F8C5D8E87B38BAED2D93F798A992E7359D8DD5684E6D9A68E1AE362192FC1FA2";
         assertEquals(expectedToken, result);
+
+        RuntimeException runtimeException = Assertions.assertThrows(
+                RuntimeException.class,
+                () -> agLoginService.getToken("tess", "test3"));
     }
 
     @Test
     public void testGetAgEnumSchemas() throws JsonProcessingException {
-        AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
+        AgLoginService agLoginService = new AgLoginService();
         String token = agLoginService.getToken("test_read_only", "test123");
 
-        AgSchemaServiceImpl agSchemaService = new AgSchemaServiceImpl(baseURL);
+        AgSchemaService agSchemaService = new AgSchemaService(baseURL);
         Mono<String> data = agSchemaService.getMonoEnumSchemas(token);
 
         AgSchema[] agSchemas = agSchemaService.getEnumSchemaFromMono(data);
@@ -48,7 +52,7 @@ public class AgLoginServiceTest {
 
     @Test
     public void testGetAgEnumSchemas2(){
-        AgSchemaServiceImpl agSchemaService = new AgSchemaServiceImpl(baseURL);
+        AgSchemaService agSchemaService = new AgSchemaService(baseURL);
         AgSchema[] agSchemas =  agSchemaService.getEnumSchema("test_read_only", "test123");
 
         String[] expectedAgSchemaNames = new String[]{"ООО ПромАльянс", "ПАО Мечел", "ПАО ЮК"};
@@ -63,35 +67,31 @@ public class AgLoginServiceTest {
 
     @Test
     public void testGetAgEnumDevices() throws JsonProcessingException {
-        AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
+        IAgLoginService agLoginService = new AgLoginService();
         String token = agLoginService.getToken("test_read_only", "test123");
 
 
-        AgSchemaServiceImpl agSchemaService = new AgSchemaServiceImpl(baseURL);
-        AgDataServiceImpl agDataService = new AgDataServiceImpl(baseURL);
-        Mono<String> data = agSchemaService.getMonoEnumSchemas(token);
+        IAgSchamaService agSchemaService = new AgSchemaService(baseURL);
+        IAgEnumDevicesService agEnumDevicesService = new AgEnumDevicesService(baseURL);
 
+        Mono<String> data = agSchemaService.getMonoEnumSchemas(token);
         AgSchema[] agSchemas = agSchemaService.getEnumSchemaFromMono(data);
 
         for (AgSchema schema : agSchemas) {
-            Mono<String> monoAgEnumDevices = agDataService.getMonoEnumAgDevice(token, schema);
-
-            AgEnumDevices agEnumDevices = agDataService.getAgEnumDevicesFromMono(monoAgEnumDevices);
-
-            for (AgDeviceItem items : agEnumDevices.getItems()) {
-                System.out.println(items.getProperties());
-            }
+            AgEnumDevices agEnumDevices = agEnumDevicesService.getAgEnumDevices(token, schema);
+            assertNotNull(agEnumDevices);
         }
     }
+
 
     @Test
     @DisplayName("Test get ag trips and return duration move")
     public void testGetAgTrips() throws JsonProcessingException {
-        AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
+        AgLoginService agLoginService = new AgLoginService();
         String token = agLoginService.getToken("test_read_only", "test123");
 
-        AgDataServiceImpl agDataService = new AgDataServiceImpl(baseURL);
-        AgTripsService agTripsService = new AgTripsServiceImpl(baseURL);
+        IAgDataService agDataService = new AgDataService(baseURL);
+        IAgTripsService agTripsService = new AgTripsService(baseURL);
 
         String[] ids = new String[1];
         ids[0] = "8f42b56a-f8ca-4214-b2d2-1d7a0b532dab";
@@ -113,10 +113,10 @@ public class AgLoginServiceTest {
 
     @Test
     public void testFindDevices() throws JsonProcessingException {
-        AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
+        AgLoginService agLoginService = new AgLoginService();
         String token = agLoginService.getToken("test_read_only", "test123");
 
-        AgDataServiceImpl agDataService = new AgDataServiceImpl(baseURL);
+        IAgDataService agDataService = new AgDataService(baseURL);
 
         AgFindDevice[] agFindDevices = agDataService.findDevicesByRegNumber(token,"d28e3930-7faa-469d-9551-7ed561830b09","р923ет");
 

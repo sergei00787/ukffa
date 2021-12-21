@@ -1,4 +1,4 @@
-package com.jbond.ukffa.service.infra.jpa;
+package com.jbond.ukffa.service.infra.jpa.ag_services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jbond.ukffa.service.core.entity.agentity.*;
@@ -9,11 +9,7 @@ import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 
-public interface AgDataService {
-
-    Mono<String> getMonoEnumAgDevice(String token, AgSchema schema);
-
-    AgEnumDevices getAgEnumDevicesFromMono(Mono<String> monoEnumAgDevice) throws JsonProcessingException;
+public interface IAgDataService {
 
     AgFindDevice[] findDevicesByRegNumber(String token, String schemaId, String  regNumber) throws JsonProcessingException;
 

@@ -1,18 +1,24 @@
-package com.jbond.ukffa.service.infra.jpa;
+package com.jbond.ukffa.service.infra.jpa.ag_services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jbond.ukffa.service.core.entity.agentity.AgDeviceItem;
 import com.jbond.ukffa.service.core.entity.agentity.AgSchema;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-public class AgSchemaServiceImpl implements AgSchamaService{
+public class AgStagesService implements IAgStagesService {
     public String baseAgUrl;
 
-    public AgSchemaServiceImpl(String baseUrl){
+    public AgStagesService(String baseUrl){
         this.baseAgUrl = baseUrl;
+    }
+
+    public String findFirstCardIdDriverInPeriodShift(String startDate, String endDate, AgDeviceItem deviceItem){
+
+        return "";
     }
 
     @Override
@@ -36,7 +42,7 @@ public class AgSchemaServiceImpl implements AgSchamaService{
 
     @Override
     public AgSchema[] getEnumSchema(String login, String password) {
-        AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
+        AgLoginService agLoginService = new AgLoginService();
         String token = agLoginService.getToken(login, password);
         try {
             return getEnumSchemaFromMono(getMonoEnumSchemas(token));
