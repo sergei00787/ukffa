@@ -2,15 +2,14 @@ package com.jbond.ukffa.infra.jpa;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jbond.ukffa.service.core.entity.agentity.*;
-import com.jbond.ukffa.service.infra.jpa.AgDataServiceImpl;
-import com.jbond.ukffa.service.infra.jpa.AgLoginServiceImpl;
-import com.jbond.ukffa.service.infra.jpa.AgSchemaServiceImpl;
+import com.jbond.ukffa.service.infra.jpa.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -92,25 +91,20 @@ public class AgLoginServiceTest {
         String token = agLoginService.getToken("test_read_only", "test123");
 
         AgDataServiceImpl agDataService = new AgDataServiceImpl(baseURL);
+        AgTripsService agTripsService = new AgTripsServiceImpl(baseURL);
 
         String[] ids = new String[1];
         ids[0] = "8f42b56a-f8ca-4214-b2d2-1d7a0b532dab";
 
-        Mono<String> agTripsMono = agDataService.getMonoAgTrips(token,
+        List<AgTrips> agTrips = agTripsService.getTrips("test_read_only",
+                "test123",
                 "d28e3930-7faa-469d-9551-7ed561830b09",
-                ids,
+                "8f42b56a-f8ca-4214-b2d2-1d7a0b532dab",
                 "20211215-0800",
                 "20211215-1200",
-                //AgDateUtility.convertAgStrLocalTimeToAgStrGMTTime("20211215-0800"),
-                //AgDateUtility.convertAgStrLocalTimeToAgStrGMTTime("20211215-1200"),
-                -1
-        );
+                -1);
 
-        HashMap<String, AgTrips> mapAgTrips = agDataService.getMapAgTripsFromMono(agTripsMono);
-
-        for (Map.Entry<String, AgTrips> entry : mapAgTrips.entrySet()) {
-            AgTrips trips = entry.getValue();
-
+        for (AgTrips trips: agTrips) {
             long sumDurationMove = agDataService.getDurationMoveByTrips(trips);
             assertEquals(sumDurationMove, 7868);
         }
@@ -133,6 +127,7 @@ public class AgLoginServiceTest {
         }
         assertEquals(1, agFindDevices.length);
     }
+
 
 
 }

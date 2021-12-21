@@ -46,40 +46,7 @@ public class AgDataServiceImpl implements AgDataService {
         return objectMapper.readValue(responseStringAgSchemas, AgEnumDevices.class);
     }
 
-    @Override
-    public Mono<String> getMonoAgTrips(String token,
-                                       String schema_id,
-                                       String[] id_devices,
-                                       String startDate,
-                                       String endDate,
-                                       int tripSplitterIndex) {
-        return WebClient.builder().baseUrl(this.baseAgUrl + "/GetTrips")
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .codecs(configurer -> configurer
-                        .defaultCodecs()
-                        .maxInMemorySize(64 * 1024 * 1024))
-                .build()
-                .get()
-                .uri(uriBuilder -> uriBuilder
-                        .queryParam("session", token)
-                        .queryParam("schemaID", schema_id)
-                        .queryParam("IDs", String.join(",", id_devices))
-                        .queryParam("SD", startDate)
-                        .queryParam("ED", endDate)
-                        .queryParam("tripSplitterIndex", tripSplitterIndex)
-                        .build())
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .bodyToMono(String.class);
-    }
 
-    @Override
-    public HashMap<String, AgTrips> getMapAgTripsFromMono(Mono<String> monoAgTrips) throws JsonProcessingException {
-        String responseStringAgTrips = monoAgTrips.block();
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(responseStringAgTrips, new TypeReference<HashMap<String, AgTrips>>() {
-        });
-    }
 
     @Override
     public AgFindDevice[] findDevicesByRegNumber(String token, String schemaId, String regNumber) throws JsonProcessingException {
@@ -104,13 +71,7 @@ public class AgDataServiceImpl implements AgDataService {
         return objectMapper.readValue(agDeviceItem, AgFindDevice[].class);
     }
 
-    @Override
-    public List<AgTrips> getAgTrips(HashMap<String, AgTrips> map, String deviceId) {
-        ArrayList<AgTrips> listAgTrips = new ArrayList<>();
-        AgTrips agTrips = map.get(deviceId);
-        listAgTrips.add(agTrips);
-        return listAgTrips;
-    }
+
 
     @Override
     public long getDurationMoveByTrips(AgTrips agtrips) {
