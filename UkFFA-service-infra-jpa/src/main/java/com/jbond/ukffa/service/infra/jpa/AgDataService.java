@@ -11,10 +11,6 @@ import java.util.List;
 
 public interface AgDataService {
 
-    Mono<String> getMonoEnumSchemas(String token);
-
-    AgSchema[] getEnumSchemaFromMono(Mono<String> mono) throws JsonProcessingException;
-
     Mono<String> getMonoEnumAgDevice(String token, AgSchema schema);
 
     AgEnumDevices getAgEnumDevicesFromMono(Mono<String> monoEnumAgDevice) throws JsonProcessingException;

@@ -2,15 +2,17 @@ package com.jbond.ukffa.infra.jpa;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jbond.ukffa.service.core.entity.agentity.*;
-import com.jbond.ukffa.service.core.utility.AgDateUtility;
 import com.jbond.ukffa.service.infra.jpa.AgDataServiceImpl;
 import com.jbond.ukffa.service.infra.jpa.AgLoginServiceImpl;
+import com.jbond.ukffa.service.infra.jpa.AgSchemaServiceImpl;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Mono;
-
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AgLoginServiceTest {
 
@@ -18,7 +20,8 @@ public class AgLoginServiceTest {
     public void testGetAgLoginToken() {
         AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
         String result = agLoginService.getToken("test_read_only", "test123");
-        System.out.println(result);
+        String expectedToken = "F8C5D8E87B38BAED2D93F798A992E7359D8DD5684E6D9A68E1AE362192FC1FA2";
+        assertEquals(expectedToken, result);
     }
 
     @Test
@@ -26,29 +29,34 @@ public class AgLoginServiceTest {
         AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
         String token = agLoginService.getToken("test_read_only", "test123");
 
-        AgDataServiceImpl agDataService = new AgDataServiceImpl();
-        Mono<String> data = agDataService.getMonoEnumSchemas(token);
+        AgSchemaServiceImpl agSchemaService = new AgSchemaServiceImpl("http://212.77.128.19:17201/ServiceJSON");
+        Mono<String> data = agSchemaService.getMonoEnumSchemas(token);
 
-        AgSchema[] agSchemas = agDataService.getEnumSchemaFromMono(data);
+        AgSchema[] agSchemas = agSchemaService.getEnumSchemaFromMono(data);
 
+        String[] expectedAgSchemaNames = new String[]{"ООО ПромАльянс", "ПАО Мечел", "ПАО ЮК"};
+        String[] actualAgSchemaNames = new String[3];
+        int i = 0;
         for (AgSchema as : agSchemas) {
-            System.out.println(as.toString());
+            actualAgSchemaNames[i] = as.getName();
+            i++;
         }
+        Assertions.assertArrayEquals(expectedAgSchemaNames, actualAgSchemaNames);
     }
 
     @Test
-    public void testGetAgEnumSchemas2() throws JsonProcessingException {
-        AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
-        String token = agLoginService.getToken("test_read_only", "test123");
+    public void testGetAgEnumSchemas2(){
+        AgSchemaServiceImpl agSchemaService = new AgSchemaServiceImpl("http://212.77.128.19:17201/ServiceJSON");
+        AgSchema[] agSchemas =  agSchemaService.getEnumSchema("test_read_only", "test123");
 
-        AgDataServiceImpl agDataService = new AgDataServiceImpl();
-        Mono<String> data = agDataService.getMonoEnumSchemas(token);
-
-        AgSchema[] agSchemas = agDataService.getEnumSchemaFromMono(data);
-
+        String[] expectedAgSchemaNames = new String[]{"ООО ПромАльянс", "ПАО Мечел", "ПАО ЮК"};
+        String[] actualAgSchemaNames = new String[3];
+        int i = 0;
         for (AgSchema as : agSchemas) {
-            System.out.println(as.toString());
+            actualAgSchemaNames[i] = as.getName();
+            i++;
         }
+        Assertions.assertArrayEquals(expectedAgSchemaNames, actualAgSchemaNames);
     }
 
     @Test
@@ -57,10 +65,11 @@ public class AgLoginServiceTest {
         String token = agLoginService.getToken("test_read_only", "test123");
 
 
-        AgDataServiceImpl agDataService = new AgDataServiceImpl();
-        Mono<String> data = agDataService.getMonoEnumSchemas(token);
+        AgSchemaServiceImpl agSchemaService = new AgSchemaServiceImpl("http://212.77.128.19:17201/ServiceJSON");
+        AgDataServiceImpl agDataService = new AgDataServiceImpl("http://212.77.128.19:17201/ServiceJSON");
+        Mono<String> data = agSchemaService.getMonoEnumSchemas(token);
 
-        AgSchema[] agSchemas = agDataService.getEnumSchemaFromMono(data);
+        AgSchema[] agSchemas = agSchemaService.getEnumSchemaFromMono(data);
 
         for (AgSchema schema : agSchemas) {
             Mono<String> monoAgEnumDevices = agDataService.getMonoEnumAgDevice(token, schema);
@@ -71,14 +80,17 @@ public class AgLoginServiceTest {
                 System.out.println(items.getProperties());
             }
         }
+
+        //Assertions.assertTrue();
     }
 
     @Test
-    public void testGetAgTrips() throws JsonProcessingException, ParseException {
+    @DisplayName("Test get ag trips and return duration move")
+    public void testGetAgTrips() throws JsonProcessingException {
         AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
         String token = agLoginService.getToken("test_read_only", "test123");
 
-        AgDataServiceImpl agDataService = new AgDataServiceImpl();
+        AgDataServiceImpl agDataService = new AgDataServiceImpl("http://212.77.128.19:17201/ServiceJSON");
 
         String[] ids = new String[1];
         ids[0] = "8f42b56a-f8ca-4214-b2d2-1d7a0b532dab";
@@ -86,10 +98,10 @@ public class AgLoginServiceTest {
         Mono<String> agTripsMono = agDataService.getMonoAgTrips(token,
                 "d28e3930-7faa-469d-9551-7ed561830b09",
                 ids,
-                //"20211215-0800",
-                //"20211215-1200",
-                AgDateUtility.convertAgStrLocalTimeToAgStrGMTTime("20211215-0800"),
-                AgDateUtility.convertAgStrLocalTimeToAgStrGMTTime("20211215-1200"),
+                "20211215-0800",
+                "20211215-1200",
+                //AgDateUtility.convertAgStrLocalTimeToAgStrGMTTime("20211215-0800"),
+                //AgDateUtility.convertAgStrLocalTimeToAgStrGMTTime("20211215-1200"),
                 -1
         );
 
@@ -97,10 +109,9 @@ public class AgLoginServiceTest {
 
         for (Map.Entry<String, AgTrips> entry : mapAgTrips.entrySet()) {
             AgTrips trips = entry.getValue();
-            AgTrip[] agTrips = trips.getTrips();
 
             long sumDurationMove = agDataService.getDurationMoveByTrips(trips);
-            System.out.println(sumDurationMove);
+            assertEquals(sumDurationMove, 7868);
         }
 
     }
@@ -110,17 +121,16 @@ public class AgLoginServiceTest {
         AgLoginServiceImpl agLoginService = new AgLoginServiceImpl();
         String token = agLoginService.getToken("test_read_only", "test123");
 
-        AgDataServiceImpl agDataService = new AgDataServiceImpl();
+        AgDataServiceImpl agDataService = new AgDataServiceImpl("http://212.77.128.19:17201/ServiceJSON");
 
-        AgFindDevice[] agFindDevices = agDataService.findDevicesByRegNumber(token,
-                "d28e3930-7faa-469d-9551-7ed561830b09",
-                "р474ку");
+        AgFindDevice[] agFindDevices = agDataService.findDevicesByRegNumber(token,"d28e3930-7faa-469d-9551-7ed561830b09","р923ет");
 
-        System.out.println(agFindDevices.length);
-        for (AgFindDevice agFindDevice: agFindDevices) {
-            System.out.println(agFindDevice);
+        String expectedId = "ff903609-7f0e-4f48-89d6-f860e024e62d";
+        for (AgFindDevice agFindDevice : agFindDevices) {
+            assertEquals(expectedId, agFindDevice.getPath()[0].getId());
+            assertEquals(agFindDevice.getItem().getSerial(), 1390599);
         }
-
+        assertEquals(1, agFindDevices.length);
     }
 
 

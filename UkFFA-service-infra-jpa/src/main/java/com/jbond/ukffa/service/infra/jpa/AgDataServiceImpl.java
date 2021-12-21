@@ -15,30 +15,15 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AgDataServiceImpl implements AgDataService {
-    public static String baseAgUrl = "http://212.77.128.19:17201/ServiceJSON";
+    public String baseAgUrl = "http://212.77.128.19:17201/ServiceJSON";
 
-    @Override
-    public Mono<String> getMonoEnumSchemas(String token) {
-        return WebClient.builder().baseUrl(baseAgUrl + "/EnumSchemas")
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .build()
-                .get()
-                .uri(uriBuilder -> uriBuilder.queryParam("session", token).build())
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .bodyToMono(String.class);
-    }
-
-    @Override
-    public AgSchema[] getEnumSchemaFromMono(Mono<String> mono) throws JsonProcessingException {
-        String responseStringAgSchemas = mono.block();
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(responseStringAgSchemas, AgSchema[].class);
+    public AgDataServiceImpl(String baseUrl){
+        this.baseAgUrl = baseUrl;
     }
 
     @Override
     public Mono<String> getMonoEnumAgDevice(String token, AgSchema schema) {
-        return WebClient.builder().baseUrl(baseAgUrl + "/EnumDevices")
+        return WebClient.builder().baseUrl(this.baseAgUrl + "/EnumDevices")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .codecs(configurer -> configurer
                         .defaultCodecs()
@@ -61,7 +46,6 @@ public class AgDataServiceImpl implements AgDataService {
         return objectMapper.readValue(responseStringAgSchemas, AgEnumDevices.class);
     }
 
-
     @Override
     public Mono<String> getMonoAgTrips(String token,
                                        String schema_id,
@@ -69,7 +53,7 @@ public class AgDataServiceImpl implements AgDataService {
                                        String startDate,
                                        String endDate,
                                        int tripSplitterIndex) {
-        return WebClient.builder().baseUrl(baseAgUrl + "/GetTrips")
+        return WebClient.builder().baseUrl(this.baseAgUrl + "/GetTrips")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .codecs(configurer -> configurer
                         .defaultCodecs()
@@ -99,7 +83,7 @@ public class AgDataServiceImpl implements AgDataService {
 
     @Override
     public AgFindDevice[] findDevicesByRegNumber(String token, String schemaId, String regNumber) throws JsonProcessingException {
-        String agDeviceItem = WebClient.builder().baseUrl(baseAgUrl + "/FindDevices")
+        String agDeviceItem = WebClient.builder().baseUrl(this.baseAgUrl + "/FindDevices")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .codecs(configurer -> configurer
                         .defaultCodecs()
@@ -125,17 +109,6 @@ public class AgDataServiceImpl implements AgDataService {
         ArrayList<AgTrips> listAgTrips = new ArrayList<>();
         AgTrips agTrips = map.get(deviceId);
         listAgTrips.add(agTrips);
-
-        /*
-        for (Map.Entry entry : map.entrySet()) {
-            if (entry.getKey() == deviceId) {
-                if (entry.getValue() != null) {
-                    listAgTrips.add((AgTrips) entry.getValue());
-                }
-
-            }
-        }
-        */
         return listAgTrips;
     }
 
@@ -150,27 +123,7 @@ public class AgDataServiceImpl implements AgDataService {
 
     @Override
     public long getDurationMove(AgTrip agtrip) {
-        long duration = 0L;
-        for (AgTripStage agTripStage : agtrip.getStages()) {
-
-            if (agTripStage.getName().equals("FlagMove")) {
-                String moveDuration = (String) agTripStage.getTotal().get("MoveDuration");
-                System.out.println("MoveDurTotal = " + moveDuration);
-                //duration = AgDateUtility.getSecondFromStringDuration(moveDuration);
-
-                for (AgTripStageItem agTripStageItem : agTripStage.getItems()) {
-                    if (agTripStageItem.getCaption().equals("Move")){
-                        long curDuration = AgDateUtility.getSecondFromStringDuration((String) agTripStageItem.getValues()[9]);
-                        duration = duration + curDuration;
-                        System.out.println("SD = " + agTripStageItem.getSd() + "ED = " + agTripStageItem.getEd());
-                        System.out.println(agTripStageItem.getValues()[9]);
-                    }
-                }
-
-            }
-        }
-        System.out.println("MoveDur = " + duration);
-        return duration;
+        return AgDateUtility.getSecondFromStringDuration((String) agtrip.getTotal().get("MoveDuration"));
     }
 
 }
