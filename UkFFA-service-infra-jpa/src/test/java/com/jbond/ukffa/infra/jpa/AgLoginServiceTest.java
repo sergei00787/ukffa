@@ -140,7 +140,7 @@ public class AgLoginServiceTest {
 
         for (AgTrips trips: agTrips) {
             for(AgTrip agTrip: trips.getTrips()){
-                AgTripStage[] agTripStages = agStagesService.getTripStages(agTrip);
+                AgTripStage[] agTripStages = agStagesService.getTripStagesInAgTrip(agTrip);
                 for (AgTripStage agTripStage: agTripStages){
                     System.out.println(agTripStage.getItems());
                 }
