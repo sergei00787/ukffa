@@ -7,7 +7,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 public class AgLoginService implements IAgLoginService {
-    private String baseUrl = "http://212.77.128.19:17201/ServiceJSON/Login";
+    private String baseUrl = "http://212.77.128.19:17201/ServiceJSON";
 
     public AgLoginService(String baseUrl) {
         this.baseUrl = baseUrl;
@@ -19,7 +19,7 @@ public class AgLoginService implements IAgLoginService {
         map.add("Password", password);
 
         Mono<String> monoToken = WebClient.builder()
-                .baseUrl(baseUrl)
+                .baseUrl(baseUrl+"/Login")
                 .build()
                 .post()
                 .body(BodyInserters.fromMultipartData(map))

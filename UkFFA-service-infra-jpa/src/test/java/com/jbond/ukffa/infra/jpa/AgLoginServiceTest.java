@@ -23,6 +23,7 @@ public class AgLoginServiceTest {
         String result = agLoginService.getToken("test_read_only", "test123");
 
         String expectedToken = "F8C5D8E87B38BAED2D93F798A992E7359D8DD5684E6D9A68E1AE362192FC1FA2";
+
         assertEquals(expectedToken, result);
 
         Assertions.assertThrows(
@@ -122,6 +123,30 @@ public class AgLoginServiceTest {
         assertEquals(1, agFindDevices.length);
     }
 
+    @Test
+    @DisplayName("Test get ag stages")
+    public void testGetAgTripStages() throws JsonProcessingException {
+        IAgDataService agDataService = new AgDataService(baseURL);
+        IAgTripsService agTripsService = new AgTripsService(baseURL);
+        IAgStagesService agStagesService = new AgStagesService(baseURL);
 
+        List<AgTrips> agTrips = agTripsService.getTrips("test_read_only",
+                "test123",
+                "d28e3930-7faa-469d-9551-7ed561830b09",
+                "8f42b56a-f8ca-4214-b2d2-1d7a0b532dab",
+                "20211215-0800",
+                "20211215-1200",
+                -1);
+
+        for (AgTrips trips: agTrips) {
+            for(AgTrip agTrip: trips.getTrips()){
+                AgTripStage[] agTripStages = agStagesService.getTripStages(agTrip);
+                for (AgTripStage agTripStage: agTripStages){
+                    System.out.println(agTripStage.getItems());
+                }
+            }
+        }
+
+    }
 
 }
